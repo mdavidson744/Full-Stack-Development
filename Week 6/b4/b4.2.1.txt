@@ -1,0 +1,24 @@
+Python 3.9.7 (tags/v3.9.7:1016ef3, Aug 30 2021, 20:19:38) [MSC v.1929 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+>>> def say_hello():
+...     print("Hello")
+...
+>>> say_hello
+<function say_hello at 0x0000020DE74CE1F0>
+>>> say_hello()
+Hello
+>>> def my_descorator(func):
+...     def wrapper():
+...             print("Before the function")
+...             func()
+...             print("After the function")
+...     return wrapper
+...
+>>> say_hello = my_descorator(say_hello)
+>>> say_hello
+<function my_descorator.<locals>.wrapper at 0x0000020DE76AE9D0>
+>>> say_hello()
+Before the function
+Hello
+After the function
+>>>
