@@ -1,15 +1,4 @@
-C:\Program Files\MongoDB\Server\5.0\bin>mongo.exe
-MongoDB shell version v5.0.3
-connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb
-Implicit session: session { "id" : UUID("86b3b7ff-dee3-47c2-b47f-603bba84efbe") }
-MongoDB server version: 5.0.3
-================
-Warning: the "mongo" shell has been superseded by "mongosh",
-which delivers improved usability and compatibility.The "mongo" shell has been deprecated and will be removed in
-an upcoming release.
-We recommend you begin using "mongosh".
-For installation instructions, see
-https://docs.mongodb.com/mongodb-shell/install/
+
 ================
 ---
 The server generated these startup warnings when booting:
