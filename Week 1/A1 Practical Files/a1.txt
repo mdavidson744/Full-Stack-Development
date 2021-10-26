@@ -1,0 +1,55 @@
+name = "MarkDavidson"
+print(name)
+print(name[1])
+print(name[2:4])
+print(name[:4])
+print(name[3:])
+print(name[-1])
+print(name[1] + name[3])
+name = 'X' + name[1:]
+print(name)
+test = "This is a simple string to practice on"
+len(test)
+test.count("s")
+test.count("is")
+test = test.replace("string", "character sequence")
+test
+test[10:16]
+test.find("a")
+test.find("a", 10)
+>>> test.split()
+['This', 'is', 'a', 'simple', 'character', 'sequence', 'to', 'practice', 'on']
+>>> test.split("character")
+['This is a simple ', ' sequence to practice on']
+>>> test.split("s")
+['Thi', ' i', ' a ', 'imple character ', 'equence to practice on']
+>>> test.split("s", 3)
+['Thi', ' i', ' a ', 'imple character sequence to practice on']
+>>> words = test.split()
+>>> words
+['This', 'is', 'a', 'simple', 'character', 'sequence', 'to', 'practice', 'on']
+>>> " ".join(words)
+'This is a simple character sequence to practice on'
+>>> "...".join(words)
+'This...is...a...simple...character...sequence...to...practice...on'
+>>> test.upper()
+'THIS IS A SIMPLE CHARACTER SEQUENCE TO PRACTICE ON'
+>>> test.lower()
+'this is a simple character sequence to practice on'
+>>> test.lower().capitalize()
+'This is a simple character sequence to practice on'
+>>> test.title()
+'This Is A Simple Character Sequence To Practice On'
+>>> "UPPER".isupper()
+True
+>>> "UpPeR".isupper
+<built-in method isupper of str object at 0x0000024A8AFA81B8>
+>>> "lower"=.islower()
+>>> "lower".islower()
+True
+>>> "LOweR".islower()
+False
+>>>
+
+
+

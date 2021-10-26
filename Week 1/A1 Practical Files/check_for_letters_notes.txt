@@ -1,0 +1,16 @@
+fin = open("words.txt", "r")
+
+letter = "unhappy"
+
+fout = open("letters.txt", "w")
+for line in fin:
+    word = line.strip()
+    if letter == word:
+        output = word + "\n"
+        fout.write(output)
+        print(word)
+
+fin.close()
+fout.close()
+
+this works for the word unhappy. it cycles well and all works. just need to add prompt for 3.

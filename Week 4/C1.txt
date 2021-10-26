@@ -1,0 +1,395 @@
+C:\Program Files\MongoDB\Server\5.0\bin>mongo.exe
+MongoDB shell version v5.0.3
+connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("86b3b7ff-dee3-47c2-b47f-603bba84efbe") }
+MongoDB server version: 5.0.3
+================
+Warning: the "mongo" shell has been superseded by "mongosh",
+which delivers improved usability and compatibility.The "mongo" shell has been deprecated and will be removed in
+an upcoming release.
+We recommend you begin using "mongosh".
+For installation instructions, see
+https://docs.mongodb.com/mongodb-shell/install/
+================
+---
+The server generated these startup warnings when booting:
+        2021-10-18T10:37:15.037+01:00: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+---
+---
+        Enable MongoDB's free cloud-based monitoring service, which will then receive and display
+        metrics about your deployment (disk utilization, CPU, operation statistics, etc).
+
+        The monitoring data will be available on a MongoDB website with a unique URL accessible to you
+        and anyone you share the URL with. MongoDB may use this information to make product
+        improvements and to suggest MongoDB products and deployment options to you.
+
+        To enable free monitoring, run the following command: db.enableFreeMonitoring()
+        To permanently disable this reminder, run the following command: db.disableFreeMonitoring()
+---
+> show dbs
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+> use first
+switched to db first
+> db.createCollection("fullStack")
+{ "ok" : 1 }
+> show collections
+fullStack
+> db.fullStack.insert( { name:"MongoDB", role:"Database" } )
+WriteResult({ "nInserted" : 1 })
+> db.fullStack.insert( [
+... { name: "Flask", role: "Web application framework" },
+... { name: "Angular", role: "Front-end framework" },
+... { name: "Python", role: "Back-end language" }
+... ] )
+BulkWriteResult({
+        "writeErrors" : [ ],
+        "writeConcernErrors" : [ ],
+        "nInserted" : 3,
+        "nUpserted" : 0,
+        "nMatched" : 0,
+        "nModified" : 0,
+        "nRemoved" : 0,
+        "upserted" : [ ]
+})
+> db.createCollection("People")
+{ "ok" : 1 }
+> show collections
+People
+fullStack
+> db.People.insert( [
+... { name: "Mark", age: "22", gender: "male" },
+... { name: "Stephen", age: "57", gender: "male },
+uncaught exception: SyntaxError: "" literal not terminated before end of script :
+@(shell):3:46
+> db.People.insert( [ { name: "Mark", age: "22", gender: "male" }, { name: "Stephen", age: "57", gender: "male }, { name: "Katrina", age: "49", gender: "female" } ] )
+uncaught exception: SyntaxError: missing } after property list :
+@(db.People.insert( [ { name: "Mark", age: "22", gender: "male" }, { name: "Stephen", age: "57", gender: "male }, { name: "Katrina", age: "49", gender: "female" } ] )
+uncaught exception: SyntaxError: missing } after property list :}, { name: "Stephen", age: "57", gender: "male }, { name: "Katrina", age: "49", gender: "female" } ] )
+@(shell):1:121
+> db.People.insert( [ { name: "Mark", age: "22", gender: "male" },{ name: "Stephen", age: "57", gender: "male },{ name: "Katrina", age: "49", gender: "female" } ] )
+uncaught exception: SyntaxError: missing } after property list :
+@(shell):1:119
+> db.People.insert( [{ name: "Mark", age: "22", gender: "male" },{ name: "Stephen", age: "57", gender: "male },{ name: "Katrina", age: "49", gender: "female" } ] )
+uncaught exception: SyntaxError: missing } after property list :
+@(shell):1:118
+> db.People.insert( [{ name: "Mark", age: "22", gender: "male" },{ name: "Stephen", age: "57", gender: "male },{ name: "Katrina", age: "49", gender: "female" } ] )
+uncaught exception: SyntaxError: missing } after property list :
+@(shell):1:118
+> db.People.insert( [{ name: "Mark", age: "22", gender: "male" },{ name: "Stephen", age: "57", gender: "male" },{ name: "Katrina", age: "49", gender: "female" } ] )
+BulkWriteResult({
+        "writeErrors" : [ ],
+        "writeConcernErrors" : [ ],
+        "nInserted" : 3,
+        "nUpserted" : 0,
+        "nMatched" : 0,
+        "nModified" : 0,
+        "nRemoved" : 0,
+        "upserted" : [ ]
+})
+> db.fullstack.find()
+> db.fullStack.find()
+{ "_id" : ObjectId("616d92c0686d6fda75466c6c"), "name" : "MongoDB", "role" : "Database" }
+{ "_id" : ObjectId("616d9391686d6fda75466c6d"), "name" : "Flask", "role" : "Web application framework" }
+{ "_id" : ObjectId("616d9391686d6fda75466c6e"), "name" : "Angular", "role" : "Front-end framework" }
+{ "_id" : ObjectId("616d9391686d6fda75466c6f"), "name" : "Python", "role" : "Back-end language" }
+> db.People.find()
+{ "_id" : ObjectId("616d961a686d6fda75466c70"), "name" : "Mark", "age" : "22", "gender" : "male" }
+{ "_id" : ObjectId("616d961a686d6fda75466c71"), "name" : "Stephen", "age" : "57", "gender" : "male" }
+{ "_id" : ObjectId("616d961a686d6fda75466c72"), "name" : "Katrina", "age" : "49", "gender" : "female" }
+> db.fullStack.find().pretty()
+{
+        "_id" : ObjectId("616d92c0686d6fda75466c6c"),
+        "name" : "MongoDB",
+        "role" : "Database"
+}
+{
+        "_id" : ObjectId("616d9391686d6fda75466c6d"),
+        "name" : "Flask",
+        "role" : "Web application framework"
+}
+{
+        "_id" : ObjectId("616d9391686d6fda75466c6e"),
+        "name" : "Angular",
+        "role" : "Front-end framework"
+}
+{
+        "_id" : ObjectId("616d9391686d6fda75466c6f"),
+        "name" : "Python",
+        "role" : "Back-end language"
+}
+> db.fullStack.find( { name: "Flask" } )
+{ "_id" : ObjectId("616d9391686d6fda75466c6d"), "name" : "Flask", "role" : "Web application framework" }
+> db.fullStack.find( { name: "Flask" } ).pretty()
+{
+        "_id" : ObjectId("616d9391686d6fda75466c6d"),
+        "name" : "Flask",
+        "role" : "Web application framework"
+}
+> db.fullStack.find( { name: "Flask", role: "database" } )
+> db.fullStack.find( { name: "Flask", role: "Database" } )
+> db.fullStack.find( { name: "MongoDB", role: "Database" } )
+{ "_id" : ObjectId("616d92c0686d6fda75466c6c"), "name" : "MongoDB", "role" : "Database" }
+> db.fullStack.find( { name: "MongoDB", role: "Database" } ).pretty()
+{
+        "_id" : ObjectId("616d92c0686d6fda75466c6c"),
+        "name" : "MongoDB",
+        "role" : "Database"
+}
+> db.fullStack.find( { name: "MongoDB", role: true" } ).pretty()
+uncaught exception: SyntaxError: "" literal not terminated before end of script :
+@(shell):1:62
+> db.fullStack.find( { name: "MongoDB", role:true } ).pretty()
+> db.fullStack.find( { name: "MongoDB", role: true } ).pretty()
+> db.fullStack.find( { name: "MongoDB", role: true } )
+> db.fullStack.find( { name: "MongoDB"},{ role: true } )
+{ "_id" : ObjectId("616d92c0686d6fda75466c6c"), "role" : "Database" }
+> db.fullStack.find( { name: "MongoDB"},{ role: true, _id:false } )
+{ "role" : "Database" }
+>> db.fullStack.find( {}, { "name" : true, "_id" : false } ).sort( { "name" : 1 } )
+{ "name" : "Angular" }
+{ "name" : "Flask" }
+{ "name" : "MongoDB" }
+{ "name" : "Python" }
+> db.fullStack.find( {}, { "name" : true, "_id" : false } ).sort( { "name" : -1 } )
+{ "name" : "Python" }
+{ "name" : "MongoDB" }
+{ "name" : "Flask" }
+{ "name" : "Angular" }
+>  db.People.find( {}, { "name" : true, "_id" : false } ),sort( { "age" : 1 } )
+uncaught exception: ReferenceError: sort is not defined :
+@(shell):1:56
+> db.People.find( {}, { "name" : true, "_id" : false } ).sort( { "age" : 1 } )
+{ "name" : "Mark" }
+{ "name" : "Katrina" }
+{ "name" : "Stephen" }
+> db.People.find( {}, { "name" : true, "_id" : false } ).sort( { "age" : -1 } )
+{ "name" : "Stephen" }
+{ "name" : "Katrina" }
+{ "name" : "Mark" }
+> db.fullStack.find( {}, { "name" : true, "_id" : false } ).sort( { "name" : 1 } )
+{ "name" : "Angular" }
+{ "name" : "Flask" }
+{ "name" : "MongoDB" }
+{ "name" : "Python" }
+> db.fullStack.find( {}, { "name" : true, "_id" : false } ).sort( { "name" : -1 } )
+{ "name" : "Python" }
+{ "name" : "MongoDB" }
+{ "name" : "Flask" }
+{ "name" : "Angular" }
+>  db.People.find( {}, { "name" : true, "_id" : false } ),sort( { "age" : 1 } )
+uncaught exception: ReferenceError: sort is not defined :
+@(shell):1:56
+> db.People.find( {}, { "name" : true, "_id" : false } ).sort( { "age" : 1 } )
+{ "name" : "Mark" }
+{ "name" : "Katrina" }
+{ "name" : "Stephen" }
+> db.People.find( {}, { "name" : true, "_id" : false } ).sort( { "age" : -1 } )
+{ "name" : "Stephen" }
+{ "name" : "Katrina" }
+{ "name" : "Mark" }
+>> show collections
+People
+fullStack
+> db.fullStack.update ( {}, { $set: { module:"COM661"} }, { multi:true } )
+WriteResult({ "nMatched" : 4, "nUpserted" : 0, "nModified" : 4 })
+> db.fullStack.find()
+{ "_id" : ObjectId("616d92c0686d6fda75466c6c"), "name" : "Mongo", "role" : "Database", "module" : "COM661" }
+{ "_id" : ObjectId("616d9391686d6fda75466c6d"), "name" : "Flask", "role" : "Web application framework", "module" : "COM661" }
+{ "_id" : ObjectId("616d9391686d6fda75466c6e"), "name" : "Angular", "role" : "Front-end framework", "module" : "COM661" }
+{ "_id" : ObjectId("616d9391686d6fda75466c6f"), "name" : "Python", "role" : "Back-end language", "module" : "COM661" }
+> db.People.update ( {}, { $set: { surname:"Davidson"} }, { multi:true } )
+WriteResult({ "nMatched" : 3, "nUpserted" : 0, "nModified" : 3 })
+> db.People.find()
+{ "_id" : ObjectId("616d961a686d6fda75466c70"), "name" : "Mark", "age" : "22", "gender" : "male", "surname" : "Davidson" }
+{ "_id" : ObjectId("616d961a686d6fda75466c71"), "name" : "Stephen", "age" : "57", "gender" : "male", "surname" : "Davidson" }
+{ "_id" : ObjectId("616d961a686d6fda75466c72"), "name" : "Katrina", "age" : "49", "gender" : "female", "surname" : "Davidson" }
+> db.fullStack.remove({"name":"Angular"})
+WriteResult({ "nRemoved" : 1 })
+> db.fullStack.find()
+{ "_id" : ObjectId("616d92c0686d6fda75466c6c"), "name" : "Mongo", "role" : "Database", "module" : "COM661" }
+{ "_id" : ObjectId("616d9391686d6fda75466c6d"), "name" : "Flask", "role" : "Web application framework", "module" : "COM661" }
+{ "_id" : ObjectId("616d9391686d6fda75466c6f"), "name" : "Python", "role" : "Back-end language", "module" : "COM661" }
+> db.fullStack.remove({})
+WriteResult({ "nRemoved" : 3 })
+> db.fullStack.find()
+> show collections
+People
+fullStack
+> db.fullStack.drop()
+true
+> show collections
+People
+>> db.fullStack.find().pretty()
+{
+        "_id" : ObjectId("616eab58eb05c8df937fa11a"),
+        "name" : "MongoDB",
+        "role" : "Database"
+}
+{
+        "_id" : ObjectId("616eab91eb05c8df937fa11b"),
+        "name" : "Flask",
+        "role" : "Web application framework"
+}
+{
+        "_id" : ObjectId("616eab91eb05c8df937fa11c"),
+        "name" : "Angular",
+        "role" : "Front-end framework"
+}
+{
+        "_id" : ObjectId("616eab91eb05c8df937fa11d"),
+        "name" : "Python",
+        "role" : "Back-end language"
+}
+> mongodump --db first
+uncaught exception: SyntaxError: unexpected token: identifier :
+@(shell):1:12
+> show collections
+People
+fullStack
+> db.fullStack.find().pretty()
+{
+        "_id" : ObjectId("616eab58eb05c8df937fa11a"),
+        "name" : "MongoDB",
+        "role" : "Database"
+}
+{
+        "_id" : ObjectId("616eab91eb05c8df937fa11b"),
+        "name" : "Flask",
+        "role" : "Web application framework"
+}
+{
+        "_id" : ObjectId("616eab91eb05c8df937fa11c"),
+        "name" : "Angular",
+        "role" : "Front-end framework"
+}
+{
+        "_id" : ObjectId("616eab91eb05c8df937fa11d"),
+        "name" : "Python",
+        "role" : "Back-end language"
+}
+> db.fullStack.remove({"name":"Angular"})
+WriteResult({ "nRemoved" : 1 })
+> db.fullStack.find().pretty()
+{
+        "_id" : ObjectId("616eab58eb05c8df937fa11a"),
+        "name" : "MongoDB",
+        "role" : "Database"
+}
+{
+        "_id" : ObjectId("616eab91eb05c8df937fa11b"),
+        "name" : "Flask",
+        "role" : "Web application framework"
+}
+{
+        "_id" : ObjectId("616eab91eb05c8df937fa11d"),
+        "name" : "Python",
+        "role" : "Back-end language"
+}
+> show collections
+People
+fullStack
+> db.fullStack.find().pretty()
+{
+        "_id" : ObjectId("616eab58eb05c8df937fa11a"),
+        "name" : "MongoDB",
+        "role" : "Database"
+}
+{
+        "_id" : ObjectId("616eab91eb05c8df937fa11b"),
+        "name" : "Flask",
+        "role" : "Web application framework"
+}
+{
+        "_id" : ObjectId("616eab91eb05c8df937fa11d"),
+        "name" : "Python",
+        "role" : "Back-end language"
+}
+> show dbs
+Second  0.000GB
+admin   0.000GB
+config  0.000GB
+first   0.000GB
+local   0.000GB
+> db.fullStack.find().pretty()
+{
+        "_id" : ObjectId("616eab58eb05c8df937fa11a"),
+        "name" : "MongoDB",
+        "role" : "Database"
+}
+{
+        "_id" : ObjectId("616eab91eb05c8df937fa11b"),
+        "name" : "Flask",
+        "role" : "Web application framework"
+}
+{
+        "_id" : ObjectId("616eab91eb05c8df937fa11d"),
+        "name" : "Python",
+        "role" : "Back-end language"
+}
+{
+        "_id" : ObjectId("616eab91eb05c8df937fa11c"),
+        "name" : "Angular",
+        "role" : "Front-end framework"
+}
+
+
+IN MONGODUMP (NEW CMD PROMPT)
+C:\Users\Mark>mongodump --db first
+2021-10-19T14:46:13.334+0100    writing first.fullStack to dump\first\fullStack.bson
+2021-10-19T14:46:13.337+0100    done dumping first.fullStack (4 documents)
+2021-10-19T14:46:13.632+0100    writing first.People to dump\first\People.bson
+2021-10-19T14:46:13.634+0100    done dumping first.People (3 documents)
+
+C:\Users\Mark>mongoreStore --db Second dump\first
+2021-10-19T14:58:54.707+0100    The --db and --collection flags are deprecated for this use-case; please use --nsInclude instead, i.e. with --nsInclude=${DATABASE}.${COLLECTION}
+2021-10-19T14:58:54.709+0100    building a list of collections to restore from dump\first dir
+2021-10-19T14:58:54.709+0100    reading metadata for Second.People from dump\first\People.metadata.json
+2021-10-19T14:58:54.710+0100    reading metadata for Second.fullStack from dump\first\fullStack.metadata.json
+2021-10-19T14:58:55.023+0100    restoring Second.People from dump\first\People.bson
+2021-10-19T14:58:55.036+0100    finished restoring Second.People (3 documents, 0 failures)
+2021-10-19T14:58:55.046+0100    restoring Second.fullStack from dump\first\fullStack.bson
+2021-10-19T14:58:55.067+0100    finished restoring Second.fullStack (4 documents, 0 failures)
+2021-10-19T14:58:55.067+0100    no indexes to restore for collection Second.People
+2021-10-19T14:58:55.067+0100    no indexes to restore for collection Second.fullStack
+2021-10-19T14:58:55.067+0100    7 document(s) restored successfully. 0 document(s) failed to restore.
+
+C:\Users\Mark>mongoreStore --db first dump\first
+2021-10-19T15:00:54.162+0100    The --db and --collection flags are deprecated for this use-case; please use --nsInclude instead, i.e. with --nsInclude=${DATABASE}.${COLLECTION}
+2021-10-19T15:00:54.165+0100    building a list of collections to restore from dump\first dir
+2021-10-19T15:00:54.165+0100    reading metadata for first.People from dump\first\People.metadata.json
+2021-10-19T15:00:54.171+0100    reading metadata for first.fullStack from dump\first\fullStack.metadata.json
+2021-10-19T15:00:54.172+0100    restoring to existing collection first.People without dropping
+2021-10-19T15:00:54.172+0100    restoring to existing collection first.fullStack without dropping
+2021-10-19T15:00:54.173+0100    restoring first.People from dump\first\People.bson
+2021-10-19T15:00:54.173+0100    restoring first.fullStack from dump\first\fullStack.bson
+2021-10-19T15:00:54.182+0100    continuing through error: E11000 duplicate key error collection: first.People index: _id_ dup key: { _id: ObjectId('616d961a686d6fda75466c70') }
+2021-10-19T15:00:54.182+0100    continuing through error: E11000 duplicate key error collection: first.People index: _id_ dup key: { _id: ObjectId('616d961a686d6fda75466c71') }
+2021-10-19T15:00:54.182+0100    continuing through error: E11000 duplicate key error collection: first.People index: _id_ dup key: { _id: ObjectId('616d961a686d6fda75466c72') }
+2021-10-19T15:00:54.191+0100    finished restoring first.People (0 documents, 3 failures)
+2021-10-19T15:00:54.496+0100    continuing through error: E11000 duplicate key error collection: first.fullStack index: _id_ dup key: { _id: ObjectId('616eab58eb05c8df937fa11a') }
+2021-10-19T15:00:54.496+0100    continuing through error: E11000 duplicate key error collection: first.fullStack index: _id_ dup key: { _id: ObjectId('616eab91eb05c8df937fa11b') }
+2021-10-19T15:00:54.497+0100    continuing through error: E11000 duplicate key error collection: first.fullStack index: _id_ dup key: { _id: ObjectId('616eab91eb05c8df937fa11d') }
+2021-10-19T15:00:54.497+0100    finished restoring first.fullStack (1 document, 3 failures)
+2021-10-19T15:00:54.497+0100    no indexes to restore for collection first.People
+2021-10-19T15:00:54.497+0100    no indexes to restore for collection first.fullStack
+2021-10-19T15:00:54.497+0100    1 document(s) restored successfully. 6 document(s) failed to restore.
+
+C:\Users\Mark>mongoexport --db first --collection fullStack
+2021-10-19T15:02:23.811+0100    connected to: mongodb://localhost/
+{"_id":{"$oid":"616eab58eb05c8df937fa11a"},"name":"MongoDB","role":"Database"}
+{"_id":{"$oid":"616eab91eb05c8df937fa11b"},"name":"Flask","role":"Web application framework"}
+{"_id":{"$oid":"616eab91eb05c8df937fa11d"},"name":"Python","role":"Back-end language"}
+{"_id":{"$oid":"616eab91eb05c8df937fa11c"},"name":"Angular","role":"Front-end framework"}
+2021-10-19T15:02:23.820+0100    exported 4 records
+
+C:\Users\Mark>mongoexport --db first --collection fullStack --out data.json
+2021-10-19T15:04:40.072+0100    connected to: mongodb://localhost/
+2021-10-19T15:04:40.087+0100    exported 4 records
+
+C:\Users\Mark>mongoexport --db first --collection fullStack --out data.json --jsonArray --pretty
+2021-10-19T15:06:01.277+0100    connected to: mongodb://localhost/
+2021-10-19T15:06:01.293+0100    exported 4 records
+
+C:\Program Files\MongoDB\Server\5.0\bin>
