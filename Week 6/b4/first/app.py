@@ -3,8 +3,15 @@ import uuid, random
 import jwt
 import datetime
 from functools import wraps
+import pymongo
+from pymongo import MongoClient
+from bson import ObjectId
 
 app = Flask(__name__)
+
+client = MongoClient("mongodb://127.0.0.1:27017")
+db = client.bizDB #database
+businesses = db.biz #collection
 
 app.config['SECRET_KEY'] = 'mysecret'
 
@@ -12,27 +19,67 @@ app.config['SECRET_KEY'] = 'mysecret'
 def login():
     auth = request.authorization
     if auth and auth.password == 'password':
-        token = jwt.encode({
-            'user' : auth.username,
+        token = jwt.encode(
+            {'user' : auth.username,
             'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=30)},
-            app.config['SECRET_KEY'])
+            app.config['SECRET_KEY'], algorithm="HS256")
+
         return jsonify({'token' : token})
     return make_response('Could not verify', 401, {'WWW-Authenticate' : 'Basic realm = "Login required"'})
+
+
+def jwt_required(func):
+    @wraps(func)
+    def jwt_required_wrapper(*args, **kwargs):
+        token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoibWFyayIsImV4cCI6MTYzODc0NzQwOX0.-uQz7SkGR3fDWulqmi_KI88qGHBSJDV-DHzqWWaqTk0'
+        if 'x-access-token' in request.headers:
+            token = request.headers['x-access-token']
+        
+        if not token:
+            return jsonify( {'message' : 'Token is missing'} ), 401
+        try:
+            data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
+        except:
+            return jsonify( {'message' : 'Token is invalid'}), 401
+        
+        return func(*args, **kwargs)
+    
+    return jwt_required_wrapper
+
+
 
 
 @app.route("/api/v1.0/businesses", methods=["GET"])
 def show_all_businesses():
     page_num, page_size = 1, 10
-    if request.args.get('pn'):
+    if request.args.get("pn"):
         page_num = int(request.args.get('pn'))
-    if request.args.get('ps'):
+    if request.args.get("ps"):
         page_size = int(request.args.get('ps'))
     page_start = (page_size * (page_num - 1))
-    businesses_list = [ { k : v } for k, v in businesses.items() ]
-    data_to_return = businesses_list[ page_start:page_start + page_size]
+    
+    data_to_return = []
+    for business in businesses.find().skip(page_start).limit(page_size):
+        business["_id"] = str(business["_id"])
+        for review in business["reviews"]:
+            review["_id"] = str(review["_id"])
+        data_to_return.append(business)
+    
     return make_response(jsonify(data_to_return), 200)
 
-
+@app.route("/api/v1.0/businesses/<string:id>", methods=["GET"])
+@jwt_required
+def show_one_business(id):
+    business = businesses.find_one({'_id': ObjectId(id)})
+    if business is not None:
+        business['_id'] = str(business['_id'])
+        for review in business['reviews']:
+            review['_id'] = str(review['_id'])
+        for tip in business['tips']:
+            tip['_id'] = str(tip['_id'])
+        return make_response(jsonify(business), 200)
+    else:
+        return make_response(jsonify({"error": "Invalid business ID"}), 404)
 # TODO validate rating is between 1 and 5 int
 @app.route("/api/v1.0/businesses", methods=["POST"])
 def add_business():
@@ -73,14 +120,6 @@ def delete_business(id):
         return make_response(jsonify({}), 204)
     else:
         return make_response(jsonify({"error": "Invalid bussines ID"}), 404)
-
-
-@app.route("/api/v1.0/businesses/<string:id>", methods=["GET"])
-def show_one_business(id):
-    if id in businesses:
-        return make_response(jsonify(businesses[id]), 200)
-    else:
-        return make_response(jsonify({"error": "Invalid bussiness ID"}), 404)
 
 
 @app.route("/api/v1.0/businesses/<string:id>/reviews", methods=["GET"])
@@ -172,7 +211,7 @@ def generate_dummy_data():
     return businesses_dict
 
 
-businesses = {}
+
 # [
 #     {
 #         "id": str(uuid.uuid1()),
@@ -198,5 +237,4 @@ businesses = {}
 # ]
 
 if __name__ == "__main__":
-    businesses = generate_dummy_data()
     app.run(debug=True)
